@@ -1,0 +1,30 @@
+name: Beginner CI/CD Pipeline
+
+# 1. 觸發：每次有人推送程式碼時執行這個機器人
+on: [push]
+
+jobs:
+  build-and-test:
+    # 2. 環境：啟動一台全新的 Linux 虛擬電腦
+    runs-on: ubuntu-latest
+
+    steps:
+      # 3. 取出程式碼：把我們的程式碼下載到虛擬電腦上
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      # 4. 設定：安裝 Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 5. 安裝與測試（持續整合）
+      - name: Install pytest and run tests
+        run: |
+          pip install pytest
+          pytest
+
+      # 6. 打包／部署模擬（持續交付）
+      - name: Package app for release
+        run: echo "All tests passed! Ready to deploy to users."
